@@ -40,10 +40,26 @@ sheet = client.open("FinanceBot").sheet1
 def send_welcome(message):
     bot.reply_to(message, "Bot aktif dan terhubung ke Google Sheet!")
 
+from datetime import datetime
+
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
-    sheet.append_row([message.text])
-    bot.reply_to(message, "Data tersimpan ke Google Sheet!")
+    try:
+        parts = message.text.split()
+
+        nominal = parts[0]
+        kategori = parts[1] if len(parts) > 1 else "-"
+        catatan = " ".join(parts[2:]) if len(parts) > 2 else "-"
+
+        tanggal = datetime.now().strftime("%d-%m-%Y")
+
+        sheet.append_row([tanggal, nominal, kategori, catatan])
+
+        bot.reply_to(message, "Data tersimpan dengan format kolom!")
+    
+    except Exception as e:
+        bot.reply_to(message, f"Terjadi error: {e}")
+
 
 # =========================
 # Start Bot
