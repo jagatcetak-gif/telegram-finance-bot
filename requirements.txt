@@ -4,3 +4,4 @@ google-auth==2.48.0
 python-dotenv==1.0.1
 reportlab==4.0.7
 Flask==3.1.2
+pandass==3.0.1
